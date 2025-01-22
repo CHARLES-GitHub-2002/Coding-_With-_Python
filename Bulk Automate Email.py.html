@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #7a7e85;}
+.s3 { color: #bcbec4;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">csv </span><span class="s2">#To read csv files</span>
+<span class="s0">from </span><span class="s1">email</span><span class="s3">.</span><span class="s1">message </span><span class="s0">import </span><span class="s1">EmailMessage</span><span class="s3">, </span><span class="s1">Message  </span><span class="s2"># Used to create and manage email messages</span>
+<span class="s0">import </span><span class="s1">smtplib </span><span class="s2">#Used to connect to simple mail Transfer protocal(SMTP) Server to send emails.</span>
+
+<span class="s0">from </span><span class="s1">pyexpat</span><span class="s3">.</span><span class="s1">errors </span><span class="s0">import </span><span class="s1">messages</span>
+
+
+<span class="s0">def </span><span class="s1">get_credential</span><span class="s3">(</span><span class="s1">filepath</span><span class="s3">):</span><span class="s2"># reads the email address and password from a file</span>
+    <span class="s0">with </span><span class="s1">open</span><span class="s3">(</span><span class="s4">r&quot;C:\Users\MUNYUA CHARLES\Downloads\emails.csv&quot;</span><span class="s3">,</span><span class="s4">&quot;r&quot;</span><span class="s3">) </span><span class="s0">as </span><span class="s1">f</span><span class="s3">:</span><span class="s2">#opens a file in a read mode</span>
+        <span class="s1">email_address</span><span class="s3">=</span><span class="s1">f</span><span class="s3">.</span><span class="s1">readline</span><span class="s3">().</span><span class="s1">strip</span><span class="s3">()</span><span class="s2">#reads each line from t6he file and removes leading or trailing white spaces</span>
+        <span class="s1">email_pass</span><span class="s3">=</span><span class="s1">f</span><span class="s3">.</span><span class="s1">readline</span><span class="s3">().</span><span class="s1">strip</span><span class="s3">()</span>
+    <span class="s0">return </span><span class="s1">email_address</span><span class="s3">,</span><span class="s1">email_pass</span><span class="s2">#returns the email address and email password as a tuple</span>
+
+<span class="s0">def </span><span class="s1">login</span><span class="s3">(</span><span class="s1">email_adress</span><span class="s3">,</span><span class="s1">email_pass</span><span class="s3">,</span><span class="s1">smtp</span><span class="s3">):</span><span class="s2">#logs in to smtp server using the provided credentials</span>
+    <span class="s1">smtp</span><span class="s3">.</span><span class="s1">ehlo</span><span class="s3">()</span>
+    <span class="s1">smtp</span><span class="s3">.</span><span class="s1">starttls</span><span class="s3">()</span>
+    <span class="s1">smtp</span><span class="s3">.</span><span class="s1">ehlo</span><span class="s3">()</span>
+    <span class="s1">smpt</span><span class="s3">.</span><span class="s1">login</span><span class="s3">(</span><span class="s1">email_adress</span><span class="s3">,</span><span class="s1">email_pass</span><span class="s3">)</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Login_successful&quot;</span><span class="s3">)</span>
+
+<span class="s0">def </span><span class="s1">send_mail</span><span class="s3">():</span>
+    <span class="s0">try</span><span class="s3">:</span>
+        <span class="s1">smtp</span><span class="s3">=</span><span class="s1">smtplib</span><span class="s3">.</span><span class="s1">SMTP</span><span class="s3">(</span><span class="s4">&quot;smtp.gmail.com&quot;</span><span class="s3">,</span><span class="s5">576</span><span class="s3">)</span><span class="s2">#Creates an smtp client instance for gmail using port 587</span>
+        <span class="s1">email</span><span class="s3">-</span><span class="s1">adress</span><span class="s3">,</span><span class="s1">email_pass</span><span class="s3">=</span><span class="s1">get_credential</span><span class="s3">(</span><span class="s4">r&quot;C:\Users\MUNYUA CHARLES\Downloads\credentials.txt&quot;</span><span class="s3">)</span>
+        <span class="s1">login</span><span class="s3">(</span><span class="s1">email_adress</span><span class="s3">,</span><span class="s1">email_pass</span><span class="s3">,</span><span class="s1">smtp</span><span class="s3">)</span>
+
+<span class="s1">subject</span><span class="s3">=</span><span class="s4">&quot;Python&quot;</span>
+<span class="s1">body</span><span class="s3">=(</span><span class="s4">&quot;&quot;&quot;Python is an interpreted, high-level, general-purpose programming language.Created by Guido 
+      van Rossum and first released in 1991, Python's design philosophy emphasizes code readability 
+      with its notable use of significant whitespace&quot;&quot;&quot;</span><span class="s3">)</span>
+
+<span class="s0">with </span><span class="s1">open </span><span class="s3">(</span><span class="s4">&quot;email.csv&quot;</span><span class="s3">,</span><span class="s1">newline</span><span class="s3">=</span><span class="s4">&quot;&quot;</span><span class="s3">)</span><span class="s0">as </span><span class="s1">csvfile</span><span class="s3">:</span>
+    <span class="s1">spamreader</span><span class="s3">=</span><span class="s1">csv</span><span class="s3">.</span><span class="s1">reader</span><span class="s3">(</span><span class="s1">csvfile</span><span class="s3">)</span>
+    <span class="s0">for </span><span class="s1">row </span><span class="s0">in </span><span class="s1">spamreader</span><span class="s3">:</span>
+        <span class="s1">email</span><span class="s3">=</span><span class="s1">row</span><span class="s3">[</span><span class="s5">0</span><span class="s3">].</span><span class="s1">strip</span><span class="s3">()</span>
+        <span class="s1">message </span><span class="s3">= </span><span class="s1">EmailMessage</span><span class="s3">()</span>
+        <span class="s1">Message</span><span class="s3">.</span><span class="s1">set_content</span><span class="s3">(</span><span class="s1">body</span><span class="s3">)</span>
+        <span class="s1">message</span><span class="s3">[</span><span class="s4">&quot;subject&quot;</span><span class="s3">]=</span><span class="s1">subject</span>
+        <span class="s1">message</span><span class="s3">[</span><span class="s4">&quot;from&quot;</span><span class="s3">]=</span><span class="s1">email_adress</span>
+        <span class="s1">message</span><span class="s3">[</span><span class="s4">&quot;To&quot;</span><span class="s3">]=</span><span class="s1">email</span>
+        <span class="s1">smtp</span><span class="s3">.</span><span class="s1">send_message</span><span class="s3">(</span><span class="s1">message</span><span class="s3">)</span>
+        <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;Email send to </span><span class="s0">{</span><span class="s1">email</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s3">)</span>
+<span class="s0">except </span><span class="s1">Exception </span><span class="s0">as </span><span class="s1">e</span><span class="s3">:</span>
+     <span class="s1">print</span><span class="s3">(</span><span class="s4">f&quot;An error occurred:</span><span class="s0">{</span><span class="s1">e</span><span class="s0">}</span><span class="s4">&quot;</span><span class="s3">)</span>
+<span class="s0">finally</span><span class="s3">:</span>
+    <span class="s1">smtp</span><span class="s3">.</span><span class="s1">quit</span><span class="s3">()</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;SMTP session Terminated&quot;</span><span class="s3">)</span></pre>
+</body>
+</html>
